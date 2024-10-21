@@ -1,1 +1,25 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"olx-app-33717","appId":"1:12566835162:android:ebb69eb52cb4eaa0d31ae3","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"olx-app-33717","configurations":{"android":"1:12566835162:android:ebb69eb52cb4eaa0d31ae3","ios":"1:12566835162:ios:812088f4a5cb5241d31ae3","macos":"1:12566835162:ios:812088f4a5cb5241d31ae3","web":"1:12566835162:web:973189901cdce5abd31ae3","windows":"1:12566835162:web:d542f978286f4bf9d31ae3"}}}}}}
+{
+    "flutter": {
+        "platforms": {
+            "android": {
+                "default": {
+                    "projectId": "olx-app-33717",
+                    "appId": "1:12566835162:android:ebb69eb52cb4eaa0d31ae3",
+                    "fileOutput": "android/app/google-services.json"
+                }
+            },
+            "dart": {
+                "lib/firebase_options.dart": {
+                    "projectId": "olx-app-33717",
+                    "configurations": {
+                        "android": "1:12566835162:android:ebb69eb52cb4eaa0d31ae3",
+                        "ios": "1:12566835162:ios:812088f4a5cb5241d31ae3",
+                        "macos": "1:12566835162:ios:812088f4a5cb5241d31ae3",
+                        "web": "1:12566835162:web:973189901cdce5abd31ae3",
+                        "windows": "1:12566835162:web:d542f978286f4bf9d31ae3"
+                    }
+                }
+            }
+        }
+    }
+}
