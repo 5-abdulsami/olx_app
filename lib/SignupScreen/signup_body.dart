@@ -1,9 +1,13 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:olx_app/ForgotPassword/forgot_password.dart';
+import 'package:olx_app/HomeScreen/home_screen.dart';
 import 'package:olx_app/LoginScreen/login_screen.dart';
 import 'package:olx_app/SignupScreen/signup_background.dart';
 import 'package:olx_app/Widgets/already_have_account.dart';
@@ -11,6 +15,7 @@ import 'package:olx_app/Widgets/error_alert_dialog.dart';
 import 'package:olx_app/Widgets/rounded_button.dart';
 import 'package:olx_app/Widgets/rounded_input_field.dart';
 import 'package:olx_app/Widgets/rounded_password_field.dart';
+import 'package:olx_app/global_variables.dart';
 
 class SignupBody extends StatefulWidget {
   const SignupBody({super.key});
@@ -20,8 +25,9 @@ class SignupBody extends StatefulWidget {
 }
 
 class _SingupBodyState extends State<SignupBody> {
+  String userPhotoUrl = '';
   bool _isLoading = false;
-  XFile? _image;
+  File? _image;
   final signupFormKey = GlobalKey<FormState>();
 
   pickCameraImage() async {
@@ -45,7 +51,7 @@ class _SingupBodyState extends State<SignupBody> {
         .cropImage(sourcePath: filePath, maxHeight: 1080, maxWidth: 1080);
     if (croppedImage != null) {
       setState(() {
-        _image = XFile(croppedImage.path);
+        _image = File(croppedImage.path);
       });
     }
   }
@@ -110,7 +116,9 @@ class _SingupBodyState extends State<SignupBody> {
   final _nameController = TextEditingController();
   final _phoneController = TextEditingController();
 
-  submitFormOnSignup() {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  submitFormOnSignup() async {
     final isValid = signupFormKey.currentState!.validate();
     if (isValid) {
       if (_image == null) {
@@ -124,9 +132,49 @@ class _SingupBodyState extends State<SignupBody> {
       setState(() {
         _isLoading = true;
       });
-      try {} catch (e) {}
+      try {
+        await _auth.createUserWithEmailAndPassword(
+          email: _emailController.text.trim().toLowerCase(),
+          password: _passwordController.text,
+        );
+
+        final User? _user = _auth.currentUser;
+        uid = _user!.uid;
+
+        // to store user images
+        final ref = FirebaseStorage.instance
+            .ref()
+            .child('userImages')
+            .child('$uid.jpg');
+        await ref.putFile(_image!);
+        userPhotoUrl = await ref.getDownloadURL();
+
+        // firestore
+        FirebaseFirestore.instance.collection('users').doc(uid).set({
+          'id': uid,
+          'userName': _nameController.text.trim(),
+          'userNumber': _phoneController.text.trim(),
+          'userEmail': _emailController.text.trim(),
+          'userImage': userPhotoUrl,
+          'timestamp': DateTime.now(),
+          'status': 'approved',
+        });
+
+        // navigate to homescreen after user creation
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => HomeScreen()));
+      } catch (e) {
+        print(e.toString());
+        setState(() {
+          _isLoading = false;
+        });
+        ErrorAlertDialog(message: e.toString());
+      }
       // signupFormKey.currentState!.save();
     }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
