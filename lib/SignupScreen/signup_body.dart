@@ -253,7 +253,11 @@ class _SingupBodyState extends State<SignupBody> {
           _isLoading
               ? Container(
                   height: 70, width: 70, child: CircularProgressIndicator())
-              : RoundedButton(onPressed: () {}, text: "SIGN UP"),
+              : RoundedButton(
+                  onPressed: () {
+                    submitFormOnSignup();
+                  },
+                  text: "SIGN UP"),
           SizedBox(height: screenHeight * 0.02),
           AlreadyHaveAccount(
               login: false,
