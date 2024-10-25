@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:olx_app/AlertDialog/error_alert_dialog.dart';
+import 'package:olx_app/AlertDialog/loading_alert_dialog.dart';
 import 'package:olx_app/ForgotPassword/forgot_password.dart';
 import 'package:olx_app/LoginScreen/login_background.dart';
 import 'package:olx_app/SignupScreen/signup_screen.dart';
@@ -17,6 +20,35 @@ class LoginBody extends StatefulWidget {
 class _LoginBodyState extends State<LoginBody> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  _login() async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return LoadingAlertDialog(
+            message: "Please wait...",
+          );
+        });
+
+    User? currentUser;
+
+    await _auth
+        .signInWithEmailAndPassword(
+            email: _emailController.text.trim(),
+            password: _passwordController.text)
+        .then((auth) {
+      currentUser = auth.user;
+    }).catchError((error) {
+      Navigator.pop(context);
+      showDialog(
+          context: context,
+          builder: (context) {
+            return ErrorAlertDialog(message: error.message.toString());
+          });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

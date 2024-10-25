@@ -11,7 +11,7 @@ import 'package:olx_app/HomeScreen/home_screen.dart';
 import 'package:olx_app/LoginScreen/login_screen.dart';
 import 'package:olx_app/SignupScreen/signup_background.dart';
 import 'package:olx_app/Widgets/already_have_account.dart';
-import 'package:olx_app/Widgets/error_alert_dialog.dart';
+import 'package:olx_app/AlertDialog/error_alert_dialog.dart';
 import 'package:olx_app/Widgets/rounded_button.dart';
 import 'package:olx_app/Widgets/rounded_input_field.dart';
 import 'package:olx_app/Widgets/rounded_password_field.dart';
