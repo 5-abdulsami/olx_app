@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:olx_app/AlertDialog/error_alert_dialog.dart';
 import 'package:olx_app/AlertDialog/loading_alert_dialog.dart';
 import 'package:olx_app/ForgotPassword/forgot_password.dart';
+import 'package:olx_app/HomeScreen/home_screen.dart';
 import 'package:olx_app/LoginScreen/login_background.dart';
 import 'package:olx_app/SignupScreen/signup_screen.dart';
 import 'package:olx_app/Widgets/already_have_account.dart';
@@ -47,6 +48,14 @@ class _LoginBodyState extends State<LoginBody> {
             return ErrorAlertDialog(message: error.message.toString());
           });
     });
+
+    if (currentUser != null) {
+      Navigator.pop(context);
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => HomeScreen()));
+    } else {
+      print("error creating user");
+    }
   }
 
   @override
@@ -100,7 +109,17 @@ class _LoginBodyState extends State<LoginBody> {
                       fontStyle: FontStyle.italic),
                 )),
           ),
-          RoundedButton(text: "LOGIN", onPressed: () {}),
+          RoundedButton(
+              text: "LOGIN",
+              onPressed: () {
+                _emailController.text.isNotEmpty &&
+                        _passwordController.text.isNotEmpty
+                    ? _login()
+                    : showDialog(
+                        context: context,
+                        builder: (context) => ErrorAlertDialog(
+                            message: "Please provide your email and password"));
+              }),
           SizedBox(
             height: size.height * 0.03,
           ),
