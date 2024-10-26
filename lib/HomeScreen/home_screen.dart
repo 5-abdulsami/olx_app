@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:olx_app/LoginScreen/login_screen.dart';
 import 'package:olx_app/ProfileScreen/profile_screen.dart';
 import 'package:olx_app/SearchProduct/search_product.dart';
+import 'package:olx_app/UploadAdScreen/upload_ad_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -62,6 +63,14 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
           ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => UploadAdScreen()));
+          },
+          child: Icon(Icons.add),
+          tooltip: "Add Post ",
         ),
       ),
     );
