@@ -1,11 +1,14 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:olx_app/AlertDialog/loading_alert_dialog.dart';
 import 'package:olx_app/global_variables.dart';
 import 'package:path/path.dart' as Path;
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:uuid/uuid.dart';
 
 class UploadAdScreen extends StatefulWidget {
   const UploadAdScreen({super.key});
@@ -15,6 +18,7 @@ class UploadAdScreen extends StatefulWidget {
 }
 
 class _UploadAdScreenState extends State<UploadAdScreen> {
+  String postId = Uuid().v4();
   bool next = false, uploading = false;
   final List<File> _images = [];
   final List<String> _imageUrls = [];
@@ -23,6 +27,12 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
   String phoneNumber = '';
 
   CollectionReference? imageRef;
+  FirebaseAuth _auth = FirebaseAuth.instance;
+
+  String itemPrice = '';
+  String itemName = '';
+  String itemColor = '';
+  String description = '';
 
   chooseImage() async {
     XFile? pickedFile =
@@ -71,7 +81,7 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
   @override
   void initState() {
     super.initState();
-    getNameOfUser();
+    // getNameOfUser();
     imageRef = FirebaseFirestore.instance.collection('imageUrls');
   }
 
@@ -94,7 +104,18 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
             next
                 ? Container()
                 : ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if (_images.length == 5) {
+                        setState(() {
+                          uploading = true;
+                          next = true;
+                        });
+                      } else {
+                        Fluttertoast.showToast(
+                            msg: "Please Select 5 images",
+                            gravity: ToastGravity.CENTER);
+                      }
+                    },
                     child: Text(
                       "Next",
                       style: TextStyle(
@@ -105,7 +126,94 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
           ],
         ),
         body: next
-            ? SingleChildScrollView()
+            ? SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(
+                        height: 5,
+                      ),
+                      TextField(
+                        decoration: InputDecoration(
+                          hintText: 'Item Name',
+                        ),
+                        onChanged: (value) {
+                          itemName = value;
+                        },
+                      ),
+                      SizedBox(height: 5),
+                      TextField(
+                        decoration: InputDecoration(
+                          hintText: 'Item Price',
+                        ),
+                        onChanged: (value) {
+                          itemPrice = value;
+                        },
+                      ),
+                      SizedBox(height: 5),
+                      TextField(
+                        decoration: InputDecoration(
+                          hintText: 'Item Color',
+                        ),
+                        onChanged: (value) {
+                          itemColor = value;
+                        },
+                      ),
+                      SizedBox(height: 5),
+                      TextField(
+                        decoration: InputDecoration(
+                          hintText: 'Write some description about the item',
+                        ),
+                        onChanged: (value) {
+                          description = value;
+                        },
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return LoadingAlertDialog(
+                                        message: 'Uploading');
+                                  });
+
+                              uploadImages().whenComplete(() {
+                                FirebaseFirestore.instance
+                                    .collection('items')
+                                    .doc(postId)
+                                    .set({
+                                  'id': _auth.currentUser!.uid,
+                                  'postId': postId,
+                                  'userName': name,
+                                  'userNumber': phoneNumber,
+                                  'itemPrice': itemPrice,
+                                  'itemName': itemName,
+                                  'itemColor': itemColor,
+                                  'itemDescription': description,
+                                  'images': _imageUrls
+                                });
+                                Navigator.pop(context);
+                                setState(() {
+                                  uploading = false;
+                                });
+                              });
+                            },
+                            child: Text(
+                              'Upload',
+                              style: TextStyle(color: Colors.black),
+                            )),
+                      ),
+                    ],
+                  ),
+                ),
+              )
             : Stack(
                 children: [
                   Container(
