@@ -197,7 +197,8 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
                                   'itemName': itemName,
                                   'itemColor': itemColor,
                                   'itemDescription': description,
-                                  'images': _imageUrls
+                                  'images': _imageUrls,
+                                  'profileImage': userImageUrl,
                                 });
                                 Navigator.pop(context);
                                 setState(() {
