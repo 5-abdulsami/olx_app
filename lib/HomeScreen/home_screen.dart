@@ -53,6 +53,16 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    getUserAddress();
+    super.initState();
+    uid = FirebaseAuth.instance.currentUser!.uid;
+    userEmail = FirebaseAuth.instance.currentUser!.email!;
+    getMyData();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       color: Colors.teal,

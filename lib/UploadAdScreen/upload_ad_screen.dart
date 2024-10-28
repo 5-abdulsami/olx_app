@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:olx_app/AlertDialog/loading_alert_dialog.dart';
+import 'package:olx_app/HomeScreen/home_screen.dart';
 import 'package:olx_app/global_variables.dart';
 import 'package:path/path.dart' as Path;
 import 'package:fluttertoast/fluttertoast.dart';
@@ -26,7 +27,6 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
   String name = '';
   String phoneNumber = '';
 
-  CollectionReference? imageRef;
   FirebaseAuth _auth = FirebaseAuth.instance;
 
   String itemPrice = '';
@@ -81,8 +81,7 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
   @override
   void initState() {
     super.initState();
-    // getNameOfUser();
-    imageRef = FirebaseFirestore.instance.collection('imageUrls');
+    getNameOfUser();
   }
 
   @override
@@ -199,11 +198,21 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
                                   'itemDescription': description,
                                   'images': _imageUrls,
                                   'profileImage': userImageUrl,
+                                  'lat': position!.latitude,
+                                  'long': position!.longitude,
+                                  'address': completeAddress,
+                                  'date': DateTime.now(),
+                                  'status': 'approved'
                                 });
-                                Navigator.pop(context);
-                                setState(() {
-                                  uploading = false;
-                                });
+                                Fluttertoast.showToast(
+                                  msg: "Posted Successfully",
+                                );
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => HomeScreen()));
+                              }).catchError((error) {
+                                print(error);
                               });
                             },
                             child: Text(
