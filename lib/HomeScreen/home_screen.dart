@@ -55,10 +55,15 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     // TODO: implement initState
+    // Get user's current location and address
     getUserAddress();
+    // Call parent class initState
     super.initState();
+    // Get current user's ID from Firebase Auth
     uid = FirebaseAuth.instance.currentUser!.uid;
+    // Get current user's email from Firebase Auth
     userEmail = FirebaseAuth.instance.currentUser!.email!;
+    // Fetch user data (image URL and username) from Firestore
     getMyData();
   }
 
