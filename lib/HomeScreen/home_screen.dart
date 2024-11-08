@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -18,7 +17,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   getMyData() {
     FirebaseFirestore.instance
@@ -74,21 +73,21 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          title: Text(
+          title: const Text(
             "Home Screen",
             style: TextStyle(
                 color: Colors.black, fontFamily: 'Signatra', fontSize: 30),
           ),
           flexibleSpace: Container(
-            decoration: BoxDecoration(color: Colors.teal),
+            decoration: const BoxDecoration(color: Colors.teal),
           ),
           actions: [
             IconButton(
               onPressed: () {
                 Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => ProfileScreen()));
+                    MaterialPageRoute(builder: (context) => const ProfileScreen()));
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.person,
                 color: Colors.black,
               ),
@@ -96,21 +95,21 @@ class _HomeScreenState extends State<HomeScreen> {
             IconButton(
                 onPressed: () {
                   Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => SearchProduct()));
+                      MaterialPageRoute(builder: (context) => const SearchProduct()));
                 },
-                icon: Padding(
-                  padding: const EdgeInsets.all(10),
+                icon: const Padding(
+                  padding: EdgeInsets.all(10),
                   child: Icon(
                     Icons.search,
                     color: Colors.black,
                   ),
                 )),
             IconButton(
-              icon: Icon(Icons.logout),
+              icon: const Icon(Icons.logout),
               onPressed: () {
                 _auth.signOut().then((value) {
                   Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()));
+                      MaterialPageRoute(builder: (context) => const LoginScreen()));
                 });
               },
             ),
@@ -119,10 +118,10 @@ class _HomeScreenState extends State<HomeScreen> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => UploadAdScreen()));
+                MaterialPageRoute(builder: (context) => const UploadAdScreen()));
           },
-          child: Icon(Icons.add),
           tooltip: "Add Post ",
+          child: const Icon(Icons.add),
         ),
       ),
     );

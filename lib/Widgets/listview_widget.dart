@@ -64,7 +64,7 @@ class _ListViewWidgetState extends State<ListViewWidget> {
         builder: (context) {
           return SingleChildScrollView(
               child: AlertDialog(
-            title: Text(
+            title: const Text(
               "Update Data",
               style: TextStyle(
                   fontSize: 24, fontFamily: "Bebas", letterSpacing: 2),
@@ -74,19 +74,19 @@ class _ListViewWidgetState extends State<ListViewWidget> {
               children: [
                 TextFormField(
                   initialValue: oldUsername,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: "Username",
                   ),
                   onChanged: (value) {
                     oldUsername = value;
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 TextFormField(
                   initialValue: oldPhoneNumber,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: "Phone Number",
                   ),
                   onChanged: (value) {
@@ -95,12 +95,12 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                     });
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 TextFormField(
                   initialValue: oldItemPrice,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: "Enter your item price",
                   ),
                   onChanged: (value) {
@@ -109,12 +109,12 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                     });
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 TextFormField(
                   initialValue: oldItemName,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: "Enter your item name",
                   ),
                   onChanged: (value) {
@@ -123,12 +123,12 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                     });
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 TextFormField(
                   initialValue: oldItemColor,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: "Enter your item color",
                   ),
                   onChanged: (value) {
@@ -137,12 +137,12 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                     });
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 TextFormField(
                   initialValue: oldDescription,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: "Enter your item description",
                   ),
                   onChanged: (value) {
@@ -151,7 +151,7 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                     });
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
               ],
@@ -161,7 +161,7 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text("Cancel"),
+                child: const Text("Cancel"),
               ),
               ElevatedButton(
                 onPressed: () {
@@ -188,7 +188,7 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                       backgroundColor: Colors.grey,
                       fontSize: 18);
                 },
-                child: Text("Update"),
+                child: const Text("Update"),
               ),
             ],
           ));
@@ -226,13 +226,13 @@ class _ListViewWidgetState extends State<ListViewWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       child: Card(
         elevation: 16,
         shadowColor: Colors.white10,
         child: Container(
           color: Colors.teal,
-          padding: EdgeInsets.all(5),
+          padding: const EdgeInsets.all(5),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -246,11 +246,11 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                   fit: BoxFit.cover,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Padding(
-                padding: EdgeInsets.only(left: 8, right: 8, bottom: 8),
+                padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -263,29 +263,29 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                       children: [
                         Text(
                           widget.name,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                               color: Colors.white),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
                         Text(
                           widget.itemModel,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                               color: Colors.white),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 8,
                         ),
                         Text(
                           DateFormat('dd MMM, yyyy - hh:mm a')
                               .format(widget.dateTime)
                               .toString(),
-                          style: TextStyle(fontSize: 18, color: Colors.white),
+                          style: const TextStyle(fontSize: 18, color: Colors.white),
                         ),
                       ],
                     ),

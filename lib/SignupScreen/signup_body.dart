@@ -61,7 +61,7 @@ class _SingupBodyState extends State<SignupBody> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text("Please choose an option"),
+            title: const Text("Please choose an option"),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -69,7 +69,7 @@ class _SingupBodyState extends State<SignupBody> {
                   onTap: () {
                     pickCameraImage();
                   },
-                  child: Row(children: [
+                  child: const Row(children: [
                     Padding(
                       padding: EdgeInsets.all(4),
                       child: Icon(
@@ -89,7 +89,7 @@ class _SingupBodyState extends State<SignupBody> {
                   onTap: () {
                     pickGalleryImage();
                   },
-                  child: Row(children: [
+                  child: const Row(children: [
                     Padding(
                       padding: EdgeInsets.all(4),
                       child: Icon(
@@ -125,7 +125,7 @@ class _SingupBodyState extends State<SignupBody> {
         showDialog(
             context: context,
             builder: (context) {
-              return ErrorAlertDialog(message: "Please select an image");
+              return const ErrorAlertDialog(message: "Please select an image");
             });
         return;
       }
@@ -138,8 +138,8 @@ class _SingupBodyState extends State<SignupBody> {
           password: _passwordController.text,
         );
 
-        final User? _user = _auth.currentUser;
-        uid = _user!.uid;
+        final User? user = _auth.currentUser;
+        uid = user!.uid;
 
         // to store user images
         final ref = FirebaseStorage.instance
@@ -162,7 +162,7 @@ class _SingupBodyState extends State<SignupBody> {
 
         // navigate to homescreen after user creation
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => HomeScreen()));
+            context, MaterialPageRoute(builder: (context) => const HomeScreen()));
       } catch (e) {
         print(e.toString());
         setState(() {
@@ -241,9 +241,9 @@ class _SingupBodyState extends State<SignupBody> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ForgotPassword()));
+                            builder: (context) => const ForgotPassword()));
                   },
-                  child: Text(
+                  child: const Text(
                     "Forgot Password?",
                     style: TextStyle(
                         color: Colors.black,
@@ -251,7 +251,7 @@ class _SingupBodyState extends State<SignupBody> {
                         fontStyle: FontStyle.italic),
                   ))),
           _isLoading
-              ? Container(
+              ? const SizedBox(
                   height: 70, width: 70, child: CircularProgressIndicator())
               : RoundedButton(
                   onPressed: () {
@@ -263,7 +263,7 @@ class _SingupBodyState extends State<SignupBody> {
               login: false,
               onPress: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LoginScreen()));
+                    MaterialPageRoute(builder: (context) => const LoginScreen()));
               }),
         ],
       ),

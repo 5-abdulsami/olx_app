@@ -12,15 +12,15 @@ class _SearchProductState extends State<SearchProduct> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Search Product Screen",
           style: TextStyle(
               fontSize: 30, fontFamily: 'Signatra', color: Colors.black),
         ),
         flexibleSpace: Container(
-          decoration: BoxDecoration(color: Colors.teal),
+          decoration: const BoxDecoration(color: Colors.teal),
         ),
-        actions: [],
+        actions: const [],
       ),
     );
   }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:olx_app/LoginScreen/login_background.dart';
 import 'package:olx_app/LoginScreen/login_body.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -7,6 +6,6 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: LoginBody());
+    return const Scaffold(body: LoginBody());
   }
 }

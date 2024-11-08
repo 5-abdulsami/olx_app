@@ -13,12 +13,12 @@ class ForgotPasswordBody extends StatefulWidget {
 
 class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
   final _emailController = TextEditingController();
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   _forgotPasswordSubmitForm() async {
     try {
       await _auth.sendPasswordResetEmail(email: _emailController.text.trim());
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => LoginScreen()));
+          context, MaterialPageRoute(builder: (context) => const LoginScreen()));
     } catch (e) {
       ErrorAlertDialog(
         message: e.toString(),
@@ -33,11 +33,11 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
       child: Stack(
         children: [
           Padding(
-            padding: EdgeInsets.all(40),
+            padding: const EdgeInsets.all(40),
             child: ListView(
               children: [
                 SizedBox(height: size.height * 0.02),
-                Text(
+                const Text(
                   'Forgot Password',
                   style: TextStyle(
                       color: Colors.black,
@@ -48,7 +48,7 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                 SizedBox(
                   height: size.height * 0.02,
                 ),
-                Text(
+                const Text(
                   'Enter your email and we\'ll send you a link to reset your password.',
                   style: TextStyle(
                       color: Colors.black,
@@ -60,7 +60,7 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                 ),
                 TextField(
                   controller: _emailController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       filled: true,
                       fillColor: Colors.black38,
                       enabledBorder: UnderlineInputBorder(
@@ -81,7 +81,7 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: Padding(
+                  child: const Padding(
                     padding: EdgeInsets.symmetric(vertical: 14),
                     child: Text(
                       'Reset Now',

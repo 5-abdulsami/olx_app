@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:olx_app/ForgotPassword/forgot_password_background.dart';
 import 'package:olx_app/ForgotPassword/forgot_password_body.dart';
 
 class ForgotPassword extends StatefulWidget {
@@ -12,7 +11,7 @@ class ForgotPassword extends StatefulWidget {
 class _ForgotPasswordState extends State<ForgotPassword> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: ForgotPasswordBody(),
     );
   }

@@ -8,8 +8,8 @@ class WelcomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Welcome Screen"),
+          title: const Text("Welcome Screen"),
         ),
-        body: WelcomeBody());
+        body: const WelcomeBody());
   }
 }

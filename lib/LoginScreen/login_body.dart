@@ -27,7 +27,7 @@ class _LoginBodyState extends State<LoginBody> {
     showDialog(
         context: context,
         builder: (context) {
-          return LoadingAlertDialog(
+          return const LoadingAlertDialog(
             message: "Please wait...",
           );
         });
@@ -52,7 +52,7 @@ class _LoginBodyState extends State<LoginBody> {
     if (currentUser != null) {
       Navigator.pop(context);
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => HomeScreen()));
+          context, MaterialPageRoute(builder: (context) => const HomeScreen()));
     } else {
       print("error creating user");
     }
@@ -101,7 +101,7 @@ class _LoginBodyState extends State<LoginBody> {
                       MaterialPageRoute(
                           builder: (context) => const ForgotPassword()));
                 },
-                child: Text(
+                child: const Text(
                   "Forgot Password",
                   style: TextStyle(
                       color: Colors.teal,
@@ -117,7 +117,7 @@ class _LoginBodyState extends State<LoginBody> {
                     ? _login()
                     : showDialog(
                         context: context,
-                        builder: (context) => ErrorAlertDialog(
+                        builder: (context) => const ErrorAlertDialog(
                             message: "Please provide your email and password"));
               }),
           SizedBox(
@@ -127,7 +127,7 @@ class _LoginBodyState extends State<LoginBody> {
               login: true,
               onPress: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => SignupScreen()));
+                    MaterialPageRoute(builder: (context) => const SignupScreen()));
               }),
         ],
       ),

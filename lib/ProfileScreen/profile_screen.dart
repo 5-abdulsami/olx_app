@@ -12,16 +12,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Profile Screen",
           style: TextStyle(
               color: Colors.black, fontFamily: 'Signatara', fontSize: 30),
         ),
         flexibleSpace: Container(
-          decoration: BoxDecoration(color: Colors.teal),
+          decoration: const BoxDecoration(color: Colors.teal),
         ),
         automaticallyImplyLeading: false,
-        actions: [],
+        actions: const [],
       ),
     );
   }

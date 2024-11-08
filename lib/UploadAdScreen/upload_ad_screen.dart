@@ -19,7 +19,7 @@ class UploadAdScreen extends StatefulWidget {
 }
 
 class _UploadAdScreenState extends State<UploadAdScreen> {
-  String postId = Uuid().v4();
+  String postId = const Uuid().v4();
   bool next = false, uploading = false;
   final List<File> _images = [];
   final List<String> _imageUrls = [];
@@ -27,7 +27,7 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
   String name = '';
   String phoneNumber = '';
 
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   String itemPrice = '';
   String itemName = '';
@@ -92,12 +92,12 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           title: Text(
-            next ? "Please Write Item\'s info" : "Choose Item Images",
-            style: TextStyle(
+            next ? "Please Write Item's info" : "Choose Item Images",
+            style: const TextStyle(
                 color: Colors.black, fontFamily: 'Signatra', fontSize: 30),
           ),
           flexibleSpace: Container(
-            decoration: BoxDecoration(color: Colors.teal),
+            decoration: const BoxDecoration(color: Colors.teal),
           ),
           actions: [
             next
@@ -115,7 +115,7 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
                             gravity: ToastGravity.CENTER);
                       }
                     },
-                    child: Text(
+                    child: const Text(
                       "Next",
                       style: TextStyle(
                           fontSize: 19,
@@ -127,59 +127,59 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
         body: next
             ? SingleChildScrollView(
                 child: Padding(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       TextField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           hintText: 'Item Name',
                         ),
                         onChanged: (value) {
                           itemName = value;
                         },
                       ),
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                       TextField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           hintText: 'Item Price',
                         ),
                         onChanged: (value) {
                           itemPrice = value;
                         },
                       ),
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                       TextField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           hintText: 'Item Color',
                         ),
                         onChanged: (value) {
                           itemColor = value;
                         },
                       ),
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                       TextField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           hintText: 'Write some description about the item',
                         ),
                         onChanged: (value) {
                           description = value;
                         },
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
-                      Container(
+                      SizedBox(
                         width: MediaQuery.of(context).size.width * 0.5,
                         child: ElevatedButton(
                             onPressed: () {
                               showDialog(
                                   context: context,
                                   builder: (context) {
-                                    return LoadingAlertDialog(
+                                    return const LoadingAlertDialog(
                                         message: 'Uploading');
                                   });
 
@@ -210,12 +210,12 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => HomeScreen()));
+                                        builder: (context) => const HomeScreen()));
                               }).catchError((error) {
                                 print(error);
                               });
                             },
-                            child: Text(
+                            child: const Text(
                               'Upload',
                               style: TextStyle(color: Colors.black),
                             )),
@@ -228,7 +228,7 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
                 children: [
                   Container(
                     child: GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3),
                       itemBuilder: (context, index) {
                         return index == 0
@@ -237,10 +237,10 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
                                     onPressed: () {
                                       !uploading ? chooseImage() : null;
                                     },
-                                    icon: Icon(Icons.add)),
+                                    icon: const Icon(Icons.add)),
                               )
                             : Container(
-                                margin: EdgeInsets.all(3),
+                                margin: const EdgeInsets.all(3),
                                 decoration: BoxDecoration(
                                     image: DecorationImage(
                                         image: FileImage(_images[index - 1],
@@ -256,18 +256,18 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Text(
+                              const Text(
                                 "Uploading",
                                 style: TextStyle(
                                     color: Colors.black, fontSize: 20),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               CircularProgressIndicator(
                                 value: val,
                                 valueColor:
-                                    AlwaysStoppedAnimation<Color>(Colors.green),
+                                    const AlwaysStoppedAnimation<Color>(Colors.green),
                               ),
                             ],
                           ),
