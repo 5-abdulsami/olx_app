@@ -47,7 +47,7 @@ class ListViewWidget extends StatefulWidget {
 
 class _ListViewWidgetState extends State<ListViewWidget> {
   Future showDialogForUpdateData(oldUsername, oldItemColor, oldItemPrice,
-      oldDescription, oldAddress, oldPhoneNumber) async {
+      oldItemName, oldDescription, oldAddress, oldPhoneNumber) async {
     await showDialog(
         context: context,
         barrierDismissible: false,
@@ -85,8 +85,81 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                     });
                   },
                 ),
+                SizedBox(
+                  height: 5,
+                ),
+                TextFormField(
+                  initialValue: oldItemPrice,
+                  decoration: InputDecoration(
+                    labelText: "Enter your item price",
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      oldItemPrice = value;
+                    });
+                  },
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                TextFormField(
+                  initialValue: oldItemName,
+                  decoration: InputDecoration(
+                    labelText: "Enter your item name",
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      oldItemName = value;
+                    });
+                  },
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                TextFormField(
+                  initialValue: oldItemColor,
+                  decoration: InputDecoration(
+                    labelText: "Enter your item color",
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      oldItemColor = value;
+                    });
+                  },
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                TextFormField(
+                  initialValue: oldDescription,
+                  decoration: InputDecoration(
+                    labelText: "Enter your item description",
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      oldDescription = value;
+                    });
+                  },
+                ),
+                SizedBox(
+                  height: 5,
+                ),
               ],
             ),
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("Cancel"),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("Update"),
+              ),
+            ],
           ));
         });
   }
