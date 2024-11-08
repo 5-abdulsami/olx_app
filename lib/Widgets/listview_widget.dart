@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
 class ListViewWidget extends StatefulWidget {
@@ -46,8 +49,15 @@ class ListViewWidget extends StatefulWidget {
 }
 
 class _ListViewWidgetState extends State<ListViewWidget> {
-  Future showDialogForUpdateData(oldUsername, oldItemColor, oldItemPrice,
-      oldItemName, oldDescription, oldAddress, oldPhoneNumber) async {
+  Future showDialogForUpdateData(
+      selectedDoc,
+      oldUsername,
+      oldItemColor,
+      oldItemPrice,
+      oldItemName,
+      oldDescription,
+      oldAddress,
+      oldPhoneNumber) async {
     await showDialog(
         context: context,
         barrierDismissible: false,
@@ -156,12 +166,61 @@ class _ListViewWidgetState extends State<ListViewWidget> {
               ElevatedButton(
                 onPressed: () {
                   Navigator.pop(context);
+                  updateProfileNameOnExistingPosts(oldUsername);
+                  _updateUserName(oldUsername, oldPhoneNumber);
+
+                  FirebaseFirestore.instance
+                      .collection("items")
+                      .doc(selectedDoc)
+                      .update({
+                    'userName': oldUsername,
+                    'userNumber': oldPhoneNumber,
+                    'itemPrice': oldItemPrice,
+                    'itemName': oldItemName,
+                    'itemColor': oldItemColor,
+                    'description': oldDescription,
+                  }).catchError((e) {
+                    print(e.toString());
+                  });
+                  Fluttertoast.showToast(
+                      msg: "The task has been updated",
+                      toastLength: Toast.LENGTH_SHORT,
+                      backgroundColor: Colors.grey,
+                      fontSize: 18);
                 },
                 child: Text("Update"),
               ),
             ],
           ));
         });
+  }
+
+  updateProfileNameOnExistingPosts(oldUsername) async {
+    await FirebaseFirestore.instance
+        .collection("items")
+        .where('id', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((snapshot) {
+      for (int i = 0; i < snapshot.docs.length; i++) {
+        String userProfileNameInPost = snapshot.docs[i]['userName'];
+        if (userProfileNameInPost != oldUsername) {
+          FirebaseFirestore.instance
+              .collection("items")
+              .doc(snapshot.docs[i].id)
+              .update({"userName": oldUsername});
+        }
+      }
+    });
+  }
+
+  Future _updateUserName(oldUsername, oldPhoneNumber) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .update({
+      'userName': oldUsername,
+      'userNumber': oldPhoneNumber,
+    });
   }
 
   @override
