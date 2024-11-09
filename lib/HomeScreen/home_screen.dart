@@ -7,6 +7,7 @@ import 'package:olx_app/LoginScreen/login_screen.dart';
 import 'package:olx_app/ProfileScreen/profile_screen.dart';
 import 'package:olx_app/SearchProduct/search_product.dart';
 import 'package:olx_app/UploadAdScreen/upload_ad_screen.dart';
+import 'package:olx_app/Widgets/listview_widget.dart';
 import 'package:olx_app/global_variables.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -84,8 +85,10 @@ class _HomeScreenState extends State<HomeScreen> {
           actions: [
             IconButton(
               onPressed: () {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => const ProfileScreen()));
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ProfileScreen()));
               },
               icon: const Icon(
                 Icons.person,
@@ -94,8 +97,10 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             IconButton(
                 onPressed: () {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => const SearchProduct()));
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SearchProduct()));
                 },
                 icon: const Padding(
                   padding: EdgeInsets.all(10),
@@ -108,17 +113,62 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: const Icon(Icons.logout),
               onPressed: () {
                 _auth.signOut().then((value) {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => const LoginScreen()));
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginScreen()));
                 });
               },
             ),
           ],
         ),
+        body: StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection('items')
+                .orderBy('time', descending: true)
+                .snapshots(),
+            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              } else {
+                if (snapshot.data!.docs.isNotEmpty) {
+                  return ListView.builder(
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, index) {
+                      return ListViewWidget(
+                        postId: snapshot.data!.docs[index].id,
+                        docId: snapshot.data!.docs[index].id,
+                        userImg: snapshot.data!.docs[index]['userImageUrl'],
+                        name: snapshot.data!.docs[index]['userName'],
+                        userId: snapshot.data!.docs[index]['userId'],
+                        itemModel: snapshot.data!.docs[index]['itemModel'],
+                        itemColor: snapshot.data!.docs[index]['itemColor'],
+                        itemPrice: snapshot.data!.docs[index]['itemPrice'],
+                        description: snapshot.data!.docs[index]['description'],
+                        address: snapshot.data!.docs[index]['address'],
+                        userNumber: snapshot.data!.docs[index]['userNumber'],
+                        date: snapshot.data!.docs[index]['date'].toDate(),
+                        lat: snapshot.data!.docs[index]['lat'],
+                        lng: snapshot.data!.docs[index]['lng'],
+                        img1: snapshot.data!.docs[index]['urlImage1'],
+                        img2: snapshot.data!.docs[index]['urlImage2'],
+                        img3: snapshot.data!.docs[index]['urlImage3'],
+                        img4: snapshot.data!.docs[index]['urlImage4'],
+                        img5: snapshot.data!.docs[index]['urlImage5'],
+                      );
+                    },
+                  );
+                } else {
+                  return Center(child: Text("No data found"));
+                }
+              }
+            }),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const UploadAdScreen()));
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const UploadAdScreen()));
           },
           tooltip: "Add Post ",
           child: const Icon(Icons.add),

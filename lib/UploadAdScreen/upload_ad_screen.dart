@@ -22,7 +22,7 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
   String postId = const Uuid().v4();
   bool next = false, uploading = false;
   final List<File> _images = [];
-  final List<String> _imageUrls = [];
+  final List<String> urlsList = [];
   double val = 0;
   String name = '';
   String phoneNumber = '';
@@ -30,6 +30,7 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   String itemPrice = '';
+  String itemModel = '';
   String itemName = '';
   String itemColor = '';
   String description = '';
@@ -56,7 +57,7 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
 
       await ref.putFile(image).whenComplete(() async {
         await ref.getDownloadURL().then((value) {
-          _imageUrls.add(value);
+          urlsList.add(value);
           i++;
         });
       });
@@ -163,6 +164,15 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
                       const SizedBox(height: 5),
                       TextField(
                         decoration: const InputDecoration(
+                          hintText: 'Item Model',
+                        ),
+                        onChanged: (value) {
+                          itemModel = value;
+                        },
+                      ),
+                      const SizedBox(height: 5),
+                      TextField(
+                        decoration: const InputDecoration(
                           hintText: 'Write some description about the item',
                         ),
                         onChanged: (value) {
@@ -195,8 +205,13 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
                                   'itemPrice': itemPrice,
                                   'itemName': itemName,
                                   'itemColor': itemColor,
-                                  'itemDescription': description,
-                                  'images': _imageUrls,
+                                  'itemModel': itemModel,
+                                  'description': description,
+                                  'urlImage1': urlsList[0].toString(),
+                                  'urlImage2': urlsList[1].toString(),
+                                  'urlImage3': urlsList[2].toString(),
+                                  'urlImage4': urlsList[3].toString(),
+                                  'urlImage5': urlsList[4].toString(),
                                   'profileImage': userImageUrl,
                                   'lat': position!.latitude,
                                   'long': position!.longitude,
@@ -210,7 +225,8 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => const HomeScreen()));
+                                        builder: (context) =>
+                                            const HomeScreen()));
                               }).catchError((error) {
                                 print(error);
                               });
@@ -228,8 +244,9 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
                 children: [
                   Container(
                     child: GridView.builder(
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3),
                       itemBuilder: (context, index) {
                         return index == 0
                             ? Center(
@@ -266,8 +283,8 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
                               ),
                               CircularProgressIndicator(
                                 value: val,
-                                valueColor:
-                                    const AlwaysStoppedAnimation<Color>(Colors.green),
+                                valueColor: const AlwaysStoppedAnimation<Color>(
+                                    Colors.green),
                               ),
                             ],
                           ),
