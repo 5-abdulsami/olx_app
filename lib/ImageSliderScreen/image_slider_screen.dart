@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_image_slider/carousel.dart';
+import 'package:olx_app/HomeScreen/home_screen.dart';
 
 class ImageSliderScreen extends StatefulWidget {
   final String title, urlImg1, urlImg2, urlImg3, urlImg4, urlImg5;
@@ -24,9 +26,31 @@ class ImageSliderScreen extends StatefulWidget {
   State<ImageSliderScreen> createState() => _ImageSliderScreenState();
 }
 
-class _ImageSliderScreenState extends State<ImageSliderScreen> {
+class _ImageSliderScreenState extends State<ImageSliderScreen>
+    with SingleTickerProviderStateMixin {
+  static List<String> links = [];
+  TabController? tabController;
+
+  getLinks() async {
+    links = [
+      widget.urlImg1,
+      widget.urlImg2,
+      widget.urlImg3,
+      widget.urlImg4,
+      widget.urlImg5
+    ];
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getLinks();
+    tabController = TabController(length: links.length, vsync: this);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     return Container(
       decoration: BoxDecoration(
         color: Colors.teal,
@@ -34,7 +58,84 @@ class _ImageSliderScreenState extends State<ImageSliderScreen> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          title: Text("Image Slider Screen"),
+          backgroundColor: Colors.teal,
+          title: Text(
+            widget.title,
+            style: TextStyle(fontFamily: 'Varela', letterSpacing: 2.0),
+          ),
+          centerTitle: true,
+          leading: IconButton(
+              onPressed: () {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => HomeScreen()));
+              },
+              icon: Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              )),
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top: 20, left: 6, right: 12),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.location_pin,
+                      color: Colors.white,
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Expanded(
+                        child: Text(
+                      widget.address,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontFamily: 'Varela',
+                          letterSpacing: 2),
+                      textAlign: TextAlign.justify,
+                      overflow: TextOverflow.fade,
+                    ))
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              SizedBox(
+                height: size.height * 0.05,
+                width: size.width,
+                child: Padding(
+                  padding: EdgeInsets.all(2),
+                  child: Carousel(
+                    indicatorBarColor: Colors.black.withOpacity(0.2),
+                    autoScrollDuration: Duration(seconds: 2),
+                    animationPageDuration: Duration(milliseconds: 500),
+                    activateIndicatorColor: Colors.black,
+                    animationPageCurve: Curves.easeIn,
+                    indicatorBarHeight: 30,
+                    indicatorHeight: 10,
+                    indicatorWidth: 10,
+                    unActivatedIndicatorColor: Colors.grey,
+                    stopAtEnd: false,
+                    autoScroll: true,
+                    items: [
+                      Image.network(links[0]),
+                      Image.network(links[1]),
+                      Image.network(links[2]),
+                      Image.network(links[3]),
+                      Image.network(links[4]),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

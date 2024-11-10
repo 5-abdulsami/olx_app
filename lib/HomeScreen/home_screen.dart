@@ -136,7 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) {
                       return ListViewWidget(
-                        postId: snapshot.data!.docs[index].id,
+                        postId: snapshot.data!.docs[index]['postId'],
                         docId: snapshot.data!.docs[index].id,
                         userImg: snapshot.data!.docs[index]['userImageUrl'],
                         name: snapshot.data!.docs[index]['userName'],
