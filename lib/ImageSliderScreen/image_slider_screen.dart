@@ -134,6 +134,75 @@ class _ImageSliderScreenState extends State<ImageSliderScreen>
                   ),
                 ),
               ),
+              Padding(
+                padding: EdgeInsets.only(left: 5),
+                child: Center(
+                  child: Text(
+                    "\$ ${widget.itemPrice}",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 24,
+                        fontFamily: 'Bebas',
+                        letterSpacing: 2),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(Icons.brush_outlined),
+                        Padding(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                widget.itemColor,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              )),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Icon(Icons.phone_outlined),
+                        Padding(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Align(
+                              alignment: Alignment.topRight,
+                              child: Text(
+                                widget.userNumber,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              )),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 15, right: 15),
+                child: Text(
+                  widget.description,
+                  textAlign: TextAlign.justify,
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              )
             ],
           ),
         ),
