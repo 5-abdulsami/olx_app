@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slider/carousel.dart';
 import 'package:olx_app/HomeScreen/home_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ImageSliderScreen extends StatefulWidget {
   final String title, urlImg1, urlImg2, urlImg3, urlImg4, urlImg5;
@@ -47,6 +48,8 @@ class _ImageSliderScreenState extends State<ImageSliderScreen>
     getLinks();
     tabController = TabController(length: links.length, vsync: this);
   }
+
+  String? url;
 
   @override
   Widget build(BuildContext context) {
@@ -202,7 +205,33 @@ class _ImageSliderScreenState extends State<ImageSliderScreen>
                     color: Colors.white,
                   ),
                 ),
-              )
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Center(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints.tightFor(width: 368),
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      url =
+                          "https://www.google.com/maps/search/?api=1&query=${widget.lat},${widget.lng}";
+                      if (await launchUrl(Uri.parse(url!))) {
+                        await launchUrl(Uri.parse(url!));
+                      } else {
+                        throw 'Could not launch $url';
+                      }
+                    },
+                    child: Text("Check Seller Location"),
+                    style: ButtonStyle(
+                        backgroundColor:
+                            WidgetStatePropertyAll(Colors.black54)),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
             ],
           ),
         ),
