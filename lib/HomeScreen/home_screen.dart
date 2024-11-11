@@ -88,7 +88,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const ProfileScreen()));
+                        builder: (context) => ProfileScreen(
+                              sellerId: uid,
+                            )));
               },
               icon: const Icon(
                 Icons.person,
