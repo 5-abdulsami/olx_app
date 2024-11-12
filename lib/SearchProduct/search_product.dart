@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:olx_app/HomeScreen/home_screen.dart';
 
 class SearchProduct extends StatefulWidget {
   const SearchProduct({super.key});
@@ -74,6 +75,19 @@ class _SearchProductState extends State<SearchProduct> {
     });
   }
 
+  _buildTitle(BuildContext context) {
+    return Text('Search Product');
+  }
+
+  _buildBackButton() {
+    return IconButton(
+        onPressed: () {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => HomeScreen()));
+        },
+        icon: Icon(Icons.arrow_back));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -81,12 +95,9 @@ class _SearchProductState extends State<SearchProduct> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
+          leading: _isSearching ? BackButton() : _buildBackButton(),
           backgroundColor: Colors.teal,
-          title: const Text(
-            "Search Product Screen",
-            style: TextStyle(
-                fontSize: 30, fontFamily: 'Signatra', color: Colors.black),
-          ),
+          title: _isSearching ? _buildSearchBar() : _buildTitle(context),
           flexibleSpace: Container(
             decoration: const BoxDecoration(color: Colors.teal),
           ),
