@@ -10,6 +10,7 @@ class SearchProduct extends StatefulWidget {
 class _SearchProductState extends State<SearchProduct> {
   final searchController = TextEditingController();
   String searchText = '';
+  bool _isSearching = false;
 
   updateSearchText(String text) {
     setState(() {
@@ -29,6 +30,48 @@ class _SearchProductState extends State<SearchProduct> {
         ),
       ),
     );
+  }
+
+  List<Widget> _buildActions() {
+    if (_isSearching) {
+      return <Widget>[
+        IconButton(
+          icon: Icon(Icons.clear),
+          onPressed: () {
+            if (searchController == null || searchController.text.isEmpty) {
+              Navigator.pop(context);
+              return;
+            }
+            _clearSearchQuery();
+          },
+        ),
+      ];
+    }
+    return [
+      IconButton(onPressed: () {}, icon: Icon(Icons.search)),
+    ];
+  }
+
+  _startSearch() {
+    ModalRoute.of(context)!
+        .addLocalHistoryEntry(LocalHistoryEntry(onRemove: _stopSearching));
+    setState(() {
+      _isSearching = true;
+    });
+  }
+
+  _stopSearching() {
+    _clearSearchQuery();
+    setState(() {
+      _isSearching = false;
+    });
+  }
+
+  _clearSearchQuery() {
+    setState(() {
+      searchController.clear();
+      updateSearchText('');
+    });
   }
 
   @override
