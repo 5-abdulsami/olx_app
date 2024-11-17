@@ -27,7 +27,7 @@ class WelcomeBackground extends StatelessWidget {
               bottom: 0,
               right: 0,
               child: Image.asset(
-                "assets/images/main _bottom.png",
+                "assets/images/main_bottom.png",
                 color: Colors.deepPurple,
                 width: size.width * 0.2,
               )),

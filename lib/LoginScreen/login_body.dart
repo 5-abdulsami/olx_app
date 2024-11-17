@@ -74,7 +74,21 @@ class _LoginBodyState extends State<LoginBody> {
             height: size.height * 0.32,
           ),
           SizedBox(
-            height: size.height * 0.03,
+            height: size.height * 0.015,
+          ),
+          Align(
+            alignment: Alignment.center,
+            child: Text(
+              "Enter your credentials",
+              style: TextStyle(
+                  fontFamily: 'Varela',
+                  fontSize: 24,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white),
+            ),
+          ),
+          SizedBox(
+            height: size.height * 0.01,
           ),
           RoundedInputField(
             hintText: "Email",
@@ -84,30 +98,33 @@ class _LoginBodyState extends State<LoginBody> {
             },
           ),
           SizedBox(
-            height: size.height * 0.03,
+            height: size.height * 0.015,
           ),
           RoundedPasswordField(onChanged: (value) {
             _passwordController.text = value;
           }),
           SizedBox(
-            height: size.height * 0.03,
+            height: size.height * 0.003,
           ),
-          Align(
-            alignment: Alignment.centerRight,
-            child: TextButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ForgotPassword()));
-                },
-                child: const Text(
-                  "Forgot Password",
-                  style: TextStyle(
-                      color: Colors.teal,
-                      fontSize: 15,
-                      fontStyle: FontStyle.italic),
-                )),
+          Container(
+            margin: EdgeInsets.only(right: 35),
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ForgotPassword()));
+                  },
+                  child: const Text(
+                    "Forgot Password",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 17,
+                        fontStyle: FontStyle.italic),
+                  )),
+            ),
           ),
           RoundedButton(
               text: "LOGIN",
@@ -121,14 +138,19 @@ class _LoginBodyState extends State<LoginBody> {
                             message: "Please provide your email and password"));
               }),
           SizedBox(
-            height: size.height * 0.03,
+            height: size.height * 0.025,
           ),
           AlreadyHaveAccount(
-              login: true,
+              login: false,
               onPress: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const SignupScreen()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SignupScreen()));
               }),
+          SizedBox(
+            height: size.height * 0.025,
+          ),
         ],
       ),
     ));

@@ -13,8 +13,7 @@ class ErrorAlertDialog extends StatelessWidget {
       actions: [
         ElevatedButton(
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const WelcomeScreen()));
+              Navigator.pop(context);
             },
             child: const Center(
               child: Text("Ok"),

@@ -212,7 +212,7 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
                                   'urlImage3': urlsList[2].toString(),
                                   'urlImage4': urlsList[3].toString(),
                                   'urlImage5': urlsList[4].toString(),
-                                  'profileImage': userImageUrl,
+                                  'userImage': userImageUrl,
                                   'lat': position!.latitude,
                                   'long': position!.longitude,
                                   'address': completeAddress,

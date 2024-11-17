@@ -14,7 +14,7 @@ class AlreadyHaveAccount extends StatelessWidget {
         Text(
           login ? "Already have an account? " : "Don't have an account? ",
           style: const TextStyle(
-              fontSize: 15, fontStyle: FontStyle.italic, color: Colors.black),
+              fontSize: 15, fontStyle: FontStyle.italic, color: Colors.white),
         ),
         GestureDetector(
           onTap: onPress,

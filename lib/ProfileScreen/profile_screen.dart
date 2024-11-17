@@ -17,10 +17,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   _buildBackButton() {
     return IconButton(
         onPressed: () {
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => HomeScreen()));
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const HomeScreen()));
         },
-        icon: Icon(Icons.arrow_back));
+        icon: const Icon(Icons.arrow_back));
   }
 
   _buildUserImage() {
@@ -61,7 +61,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: Colors.teal),
+      decoration: const BoxDecoration(color: Colors.teal),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
@@ -69,10 +69,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
           title: Row(
             children: [
               _buildUserImage(),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Text(
                 adUserName,
-                style: TextStyle(
+                style: const TextStyle(
                     color: Colors.black, fontFamily: 'Signatara', fontSize: 30),
               ),
             ],
@@ -91,7 +91,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 .snapshots(),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               } else {
                 if (snapshot.data!.docs.isNotEmpty) {
                   return ListView.builder(
@@ -100,7 +100,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       return ListViewWidget(
                         postId: snapshot.data!.docs[index]['postId'],
                         docId: snapshot.data!.docs[index].id,
-                        userImg: snapshot.data!.docs[index]['userImageUrl'],
+                        userImage: snapshot.data!.docs[index]['userImage'],
                         name: snapshot.data!.docs[index]['userName'],
                         userId: snapshot.data!.docs[index]['userId'],
                         itemModel: snapshot.data!.docs[index]['itemModel'],
@@ -121,7 +121,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     },
                   );
                 } else {
-                  return Center(child: Text("No data found"));
+                  return const Center(child: Text("No data found"));
                 }
               }
             }),

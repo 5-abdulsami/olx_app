@@ -54,7 +54,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     // Get user's current location and address
     getUserAddress();
     // Call parent class initState
@@ -131,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 .snapshots(),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               } else {
                 if (snapshot.data!.docs.isNotEmpty) {
                   return ListView.builder(
@@ -140,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       return ListViewWidget(
                         postId: snapshot.data!.docs[index]['postId'],
                         docId: snapshot.data!.docs[index].id,
-                        userImg: snapshot.data!.docs[index]['userImageUrl'],
+                        userImage: snapshot.data!.docs[index]['userImage'],
                         name: snapshot.data!.docs[index]['userName'],
                         userId: snapshot.data!.docs[index]['userId'],
                         itemModel: snapshot.data!.docs[index]['itemModel'],
@@ -161,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   );
                 } else {
-                  return Center(child: Text("No data found"));
+                  return const Center(child: Text("No data found"));
                 }
               }
             }),

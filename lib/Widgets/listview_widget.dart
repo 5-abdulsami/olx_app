@@ -14,7 +14,7 @@ class ListViewWidget extends StatefulWidget {
       img3,
       img4,
       img5,
-      userImg,
+      userImage,
       name,
       userId,
       postId,
@@ -32,7 +32,7 @@ class ListViewWidget extends StatefulWidget {
     required this.img3,
     required this.img4,
     required this.img5,
-    required this.userImg,
+    required this.userImage,
     required this.name,
     required this.userId,
     required this.postId,
@@ -275,7 +275,7 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                   children: [
                     CircleAvatar(
                       radius: 30,
-                      backgroundImage: NetworkImage(widget.userImg),
+                      backgroundImage: NetworkImage(widget.userImage),
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

@@ -30,66 +30,100 @@ class _SingupBodyState extends State<SignupBody> {
   File? _image;
   final signupFormKey = GlobalKey<FormState>();
 
-  pickCameraImage() async {
-    XFile? pickedImage =
-        await ImagePicker().pickImage(source: ImageSource.camera);
-    cropImage(pickedImage!.path);
-
-    Navigator.of(context).pop();
-  }
-
   void pickGalleryImage() async {
-    XFile? pickedImage =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-    cropImage(pickedImage!.path);
-
-    Navigator.pop(context);
+    try {
+      XFile? pickedImage =
+          await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (pickedImage != null) {
+        cropImage(pickedImage.path);
+      } else {
+        // User canceled the image picker
+        return;
+      }
+    } catch (e) {
+      print("Error picking gallery image: $e");
+    }
   }
 
-  void cropImage(filePath) async {
-    CroppedFile? croppedImage = await ImageCropper()
-        .cropImage(sourcePath: filePath, maxHeight: 1080, maxWidth: 1080);
-    if (croppedImage != null) {
-      setState(() {
-        _image = File(croppedImage.path);
-      });
+  void pickCameraImage() async {
+    try {
+      XFile? pickedImage =
+          await ImagePicker().pickImage(source: ImageSource.camera);
+      if (pickedImage != null) {
+        cropImage(pickedImage.path);
+      } else {
+        // User canceled the image picker
+        return;
+      }
+    } catch (e) {
+      print("Error picking camera image: $e");
+    }
+  }
+
+  void cropImage(String filePath) async {
+    try {
+      CroppedFile? croppedImage = await ImageCropper().cropImage(
+        sourcePath: filePath,
+        maxHeight: 1080,
+        maxWidth: 1080,
+      );
+
+      if (croppedImage != null) {
+        setState(() {
+          _image = File(croppedImage.path);
+        });
+        Navigator.pop(context); // Close the dialog after successful cropping
+      } else {
+        print("Image cropping was canceled.");
+      }
+    } catch (e) {
+      print("Error cropping image: $e");
     }
   }
 
   void showImageDialog() {
     showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text("Please choose an option"),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                InkWell(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text(
+            "Please choose an option",
+            style: TextStyle(fontSize: 18),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(bottom: 10),
+                child: InkWell(
                   onTap: () {
                     pickCameraImage();
                   },
-                  child: const Row(children: [
-                    Padding(
-                      padding: EdgeInsets.all(4),
-                      child: Icon(
-                        Icons.camera,
-                        color: Colors.purple,
+                  child: const Row(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(4),
+                        child: Icon(
+                          Icons.camera,
+                          color: Colors.purple,
+                        ),
                       ),
-                    ),
-                    Text(
-                      "Camera",
-                      style: TextStyle(
-                        color: Colors.purple,
+                      Text(
+                        "Camera",
+                        style: TextStyle(
+                          color: Colors.purple,
+                        ),
                       ),
-                    )
-                  ]),
+                    ],
+                  ),
                 ),
-                InkWell(
-                  onTap: () {
-                    pickGalleryImage();
-                  },
-                  child: const Row(children: [
+              ),
+              InkWell(
+                onTap: () {
+                  pickGalleryImage();
+                },
+                child: const Row(
+                  children: [
                     Padding(
                       padding: EdgeInsets.all(4),
                       child: Icon(
@@ -102,13 +136,15 @@ class _SingupBodyState extends State<SignupBody> {
                       style: TextStyle(
                         color: Colors.purple,
                       ),
-                    )
-                  ]),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          );
-        });
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   final _emailController = TextEditingController();
@@ -161,8 +197,8 @@ class _SingupBodyState extends State<SignupBody> {
         });
 
         // navigate to homescreen after user creation
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const HomeScreen()));
       } catch (e) {
         print(e.toString());
         setState(() {
@@ -193,7 +229,7 @@ class _SingupBodyState extends State<SignupBody> {
                   showImageDialog();
                 },
                 child: CircleAvatar(
-                  radius: screenWidth * 0.20,
+                  radius: screenWidth * 0.18,
                   backgroundColor: Colors.white,
                   backgroundImage:
                       _image == null ? null : FileImage(File(_image!.path)),
@@ -233,23 +269,26 @@ class _SingupBodyState extends State<SignupBody> {
               _passwordController.text = value;
             },
           ),
-          SizedBox(height: screenHeight * 0.02),
-          Align(
-              alignment: Alignment.centerRight,
-              child: TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const ForgotPassword()));
-                  },
-                  child: const Text(
-                    "Forgot Password?",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 15,
-                        fontStyle: FontStyle.italic),
-                  ))),
+          SizedBox(height: screenHeight * 0.003),
+          Container(
+            margin: const EdgeInsets.only(right: 35),
+            child: Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ForgotPassword()));
+                    },
+                    child: const Text(
+                      "Forgot Password?",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontStyle: FontStyle.italic),
+                    ))),
+          ),
           _isLoading
               ? const SizedBox(
                   height: 70, width: 70, child: CircularProgressIndicator())
@@ -260,10 +299,12 @@ class _SingupBodyState extends State<SignupBody> {
                   text: "SIGN UP"),
           SizedBox(height: screenHeight * 0.02),
           AlreadyHaveAccount(
-              login: false,
+              login: true,
               onPress: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const LoginScreen()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const LoginScreen()));
               }),
         ],
       ),

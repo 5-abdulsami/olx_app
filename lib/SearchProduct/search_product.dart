@@ -41,7 +41,7 @@ class _SearchProductState extends State<SearchProduct> {
         IconButton(
           icon: Icon(Icons.clear),
           onPressed: () {
-            if (searchController == null || searchController.text.isEmpty) {
+            if (searchController.text.isEmpty) {
               Navigator.pop(context);
               return;
             }
@@ -93,7 +93,7 @@ class _SearchProductState extends State<SearchProduct> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: Colors.teal),
+      decoration: const BoxDecoration(color: Colors.teal),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
@@ -114,7 +114,7 @@ class _SearchProductState extends State<SearchProduct> {
                 .snapshots(),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               } else {
                 if (snapshot.data!.docs.isNotEmpty) {
                   return ListView.builder(
@@ -123,7 +123,7 @@ class _SearchProductState extends State<SearchProduct> {
                       return ListViewWidget(
                         postId: snapshot.data!.docs[index]['postId'],
                         docId: snapshot.data!.docs[index].id,
-                        userImg: snapshot.data!.docs[index]['userImageUrl'],
+                        userImage: snapshot.data!.docs[index]['userImage'],
                         name: snapshot.data!.docs[index]['userName'],
                         userId: snapshot.data!.docs[index]['userId'],
                         itemModel: snapshot.data!.docs[index]['itemModel'],
@@ -144,7 +144,7 @@ class _SearchProductState extends State<SearchProduct> {
                     },
                   );
                 } else {
-                  return Center(child: Text("No data found"));
+                  return const Center(child: Text("No data found"));
                 }
               }
             }),
