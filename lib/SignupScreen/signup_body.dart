@@ -34,11 +34,13 @@ class _SingupBodyState extends State<SignupBody> {
     try {
       XFile? pickedImage =
           await ImagePicker().pickImage(source: ImageSource.gallery);
+
       if (pickedImage != null) {
-        cropImage(pickedImage.path);
+        setState(() {
+          _image = File(pickedImage.path); // Convert XFile to File
+        });
       } else {
-        // User canceled the image picker
-        return;
+        print("No image selected from gallery.");
       }
     } catch (e) {
       print("Error picking gallery image: $e");
@@ -49,18 +51,20 @@ class _SingupBodyState extends State<SignupBody> {
     try {
       XFile? pickedImage =
           await ImagePicker().pickImage(source: ImageSource.camera);
+
       if (pickedImage != null) {
-        cropImage(pickedImage.path);
+        setState(() {
+          _image = File(pickedImage.path); // Convert XFile to File
+        });
       } else {
-        // User canceled the image picker
-        return;
+        print("No image selected from camera.");
       }
     } catch (e) {
       print("Error picking camera image: $e");
     }
   }
 
-  void cropImage(String filePath) async {
+  Future<void> cropImage(String filePath) async {
     try {
       CroppedFile? croppedImage = await ImageCropper().cropImage(
         sourcePath: filePath,
@@ -69,12 +73,13 @@ class _SingupBodyState extends State<SignupBody> {
       );
 
       if (croppedImage != null) {
-        setState(() {
-          _image = File(croppedImage.path);
-        });
-        Navigator.pop(context); // Close the dialog after successful cropping
+        if (mounted) {
+          setState(() {
+            _image = File(croppedImage.path);
+          });
+        }
       } else {
-        print("Image cropping was canceled.");
+        print("Image cropping was cancelled.");
       }
     } catch (e) {
       print("Error cropping image: $e");
@@ -97,7 +102,8 @@ class _SingupBodyState extends State<SignupBody> {
                 margin: const EdgeInsets.only(bottom: 10),
                 child: InkWell(
                   onTap: () {
-                    pickCameraImage();
+                    Navigator.pop(context); // Close the dialog
+                    pickCameraImage(); // Then pick the camera image
                   },
                   child: const Row(
                     children: [
@@ -120,7 +126,8 @@ class _SingupBodyState extends State<SignupBody> {
               ),
               InkWell(
                 onTap: () {
-                  pickGalleryImage();
+                  Navigator.pop(context); // Close the dialog
+                  pickGalleryImage(); // Then pick the gallery image
                 },
                 child: const Row(
                   children: [
@@ -191,7 +198,8 @@ class _SingupBodyState extends State<SignupBody> {
           'userName': _nameController.text.trim(),
           'userNumber': _phoneController.text.trim(),
           'userEmail': _emailController.text.trim(),
-          'userImage': userPhotoUrl,
+          'userImage':
+              userPhotoUrl, // storing the downloaded image url of user image
           'timestamp': DateTime.now(),
           'status': 'approved',
         });
@@ -231,8 +239,7 @@ class _SingupBodyState extends State<SignupBody> {
                 child: CircleAvatar(
                   radius: screenWidth * 0.18,
                   backgroundColor: Colors.white,
-                  backgroundImage:
-                      _image == null ? null : FileImage(File(_image!.path)),
+                  backgroundImage: _image == null ? null : FileImage(_image!),
                   child: _image == null
                       ? Icon(
                           Icons.camera_enhance,

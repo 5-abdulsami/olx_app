@@ -9,6 +9,7 @@ import 'package:olx_app/SearchProduct/search_product.dart';
 import 'package:olx_app/UploadAdScreen/upload_ad_screen.dart';
 import 'package:olx_app/Widgets/listview_widget.dart';
 import 'package:olx_app/global_variables.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -34,22 +35,65 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   getUserAddress() async {
-    Position newPosition = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+    var status = await Permission.location.request();
 
-    position = newPosition;
-    placemarks =
-        await placemarkFromCoordinates(position!.latitude, position!.longitude);
+    // if permission is denied, request again for location permission
+    if (status.isDenied) {
+      status = await Permission.location.request();
+    }
 
-    Placemark placemark = placemarks![0];
+    // if permission is permanently denied, show dialog that
+    // location permission for this app is necessary
+    if (status.isPermanentlyDenied) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text("Location Permission Needed"),
+              content: const Text(
+                  "This app needs location access to fetch your current location."),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("Cancel"),
+                ),
+                TextButton(
+                  onPressed: () {
+                    openAppSettings(); // Redirect to app settings
+                    Navigator.pop(context);
+                  },
+                  child: const Text("Open Settings"),
+                ),
+              ],
+            );
+          });
+    }
 
-    String newCompleteAddress =
-        '${placemark.subThoroughfare} ${placemark.thoroughfare}, ${placemark.subThoroughfare} ${placemark.locality}, ${placemark.subAdministrativeArea}, ${placemark.postalCode}, ${placemark.country}';
+    if (status.isGranted) {
+      try {
+        Position newPosition = await Geolocator.getCurrentPosition(
+          locationSettings:
+              const LocationSettings(accuracy: LocationAccuracy.high),
+        );
 
-    completeAddress = newCompleteAddress;
-    print(completeAddress);
+        position = newPosition;
+        placemarks = await placemarkFromCoordinates(
+            position!.latitude, position!.longitude);
 
-    return completeAddress;
+        Placemark placemark = placemarks![0];
+
+        String newCompleteAddress =
+            '${placemark.subThoroughfare} ${placemark.thoroughfare}, ${placemark.locality}, '
+            '${placemark.subAdministrativeArea}, ${placemark.postalCode}, ${placemark.country}';
+
+        completeAddress = newCompleteAddress;
+        print("Address: $completeAddress");
+
+        setState(() {}); // Update the UI with the fetched address
+      } catch (e) {
+        print("Error fetching location: $e");
+      }
+    }
   }
 
   @override

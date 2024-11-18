@@ -50,6 +50,7 @@ dependencies:
   url_launcher:
   map_launcher:
   uuid:
+  permission_handler:
 
   path: any
 dev_dependencies:
