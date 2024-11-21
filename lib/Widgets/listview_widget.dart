@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +23,7 @@ class ListViewWidget extends StatefulWidget {
       itemModel;
   final String itemPrice, description, address, userNumber;
   final DateTime date;
-  final double lat, lng;
+  final double lat, long;
 
   const ListViewWidget({
     super.key,
@@ -43,7 +45,7 @@ class ListViewWidget extends StatefulWidget {
     required this.userNumber,
     required this.date,
     required this.lat,
-    required this.lng,
+    required this.long,
   });
 
   @override
@@ -60,10 +62,10 @@ class _ListViewWidgetState extends State<ListViewWidget> {
       oldDescription,
       oldAddress,
       oldPhoneNumber) async {
-    await showDialog(
+    return showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (context) {
+        builder: (BuildContext context) {
           return SingleChildScrollView(
               child: AlertDialog(
             title: const Text(
@@ -77,8 +79,7 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                 TextFormField(
                   initialValue: oldUsername,
                   decoration: const InputDecoration(
-                    labelText: "Username",
-                  ),
+                      labelText: "Username", hintText: "Enter your Username"),
                   onChanged: (value) {
                     oldUsername = value;
                   },
@@ -89,8 +90,8 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                 TextFormField(
                   initialValue: oldPhoneNumber,
                   decoration: const InputDecoration(
-                    labelText: "Phone Number",
-                  ),
+                      labelText: "Phone Number",
+                      hintText: 'Enter your Phone Number'),
                   onChanged: (value) {
                     setState(() {
                       oldPhoneNumber = value;
@@ -103,8 +104,7 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                 TextFormField(
                   initialValue: oldItemPrice,
                   decoration: const InputDecoration(
-                    labelText: "Enter your item price",
-                  ),
+                      labelText: "Item Price", hintText: "Enter Item Price"),
                   onChanged: (value) {
                     setState(() {
                       oldItemPrice = value;
@@ -117,7 +117,8 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                 TextFormField(
                   initialValue: oldItemName,
                   decoration: const InputDecoration(
-                    labelText: "Enter your item name",
+                    labelText: "Item Name",
+                    hintText: "Enter Item Name",
                   ),
                   onChanged: (value) {
                     setState(() {
@@ -131,8 +132,7 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                 TextFormField(
                   initialValue: oldItemColor,
                   decoration: const InputDecoration(
-                    labelText: "Enter your item color",
-                  ),
+                      labelText: "Item Color", hintText: "Enter Item Color"),
                   onChanged: (value) {
                     setState(() {
                       oldItemColor = value;
@@ -145,8 +145,8 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                 TextFormField(
                   initialValue: oldDescription,
                   decoration: const InputDecoration(
-                    labelText: "Enter your item description",
-                  ),
+                      labelText: "Item Description",
+                      hintText: "Enter Item Description"),
                   onChanged: (value) {
                     setState(() {
                       oldDescription = value;
@@ -182,7 +182,7 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                     'itemColor': oldItemColor,
                     'description': oldDescription,
                   }).catchError((e) {
-                    print(e.toString());
+                    log(e.toString());
                   });
                   Fluttertoast.showToast(
                       msg: "The task has been updated",
@@ -258,7 +258,7 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                               address: widget.address,
                               userNumber: widget.userNumber,
                               lat: widget.lat,
-                              lng: widget.lng)));
+                              lng: widget.long)));
                 },
                 child: Image.network(
                   widget.img1,
@@ -309,8 +309,8 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                         ),
                       ],
                     ),
-                    widget.userId == uid
-                        ? Padding(
+                    widget.userId != uid
+                        ? const Padding(
                             padding: EdgeInsets.only(right: 50),
                             child: Column(
                               children: [],
@@ -330,8 +330,8 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                                         widget.address,
                                         widget.userNumber);
                                   },
-                                  icon: Padding(
-                                    padding: const EdgeInsets.only(left: 20.0),
+                                  icon: const Padding(
+                                    padding: EdgeInsets.only(left: 20.0),
                                     child: Icon(
                                       Icons.edit,
                                       color: Colors.white,
@@ -350,8 +350,8 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                                         backgroundColor: Colors.grey,
                                         fontSize: 18);
                                   },
-                                  icon: Padding(
-                                    padding: const EdgeInsets.only(left: 20.0),
+                                  icon: const Padding(
+                                    padding: EdgeInsets.only(left: 20.0),
                                     child: Icon(
                                       Icons.delete,
                                       color: Colors.white,

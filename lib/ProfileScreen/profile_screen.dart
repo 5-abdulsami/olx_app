@@ -111,7 +111,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         userNumber: snapshot.data!.docs[index]['userNumber'],
                         date: snapshot.data!.docs[index]['date'].toDate(),
                         lat: snapshot.data!.docs[index]['lat'],
-                        lng: snapshot.data!.docs[index]['lng'],
+                        long: snapshot.data!.docs[index]['lng'],
                         img1: snapshot.data!.docs[index]['urlImage1'],
                         img2: snapshot.data!.docs[index]['urlImage2'],
                         img3: snapshot.data!.docs[index]['urlImage3'],

@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -228,7 +229,7 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
                                         builder: (context) =>
                                             const HomeScreen()));
                               }).catchError((error) {
-                                print(error);
+                                log(error);
                               });
                             },
                             child: const Text(
@@ -242,31 +243,29 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
               )
             : Stack(
                 children: [
-                  Container(
-                    child: GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3),
-                      itemBuilder: (context, index) {
-                        return index == 0
-                            ? Center(
-                                child: IconButton(
-                                    onPressed: () {
-                                      !uploading ? chooseImage() : null;
-                                    },
-                                    icon: const Icon(Icons.add)),
-                              )
-                            : Container(
-                                margin: const EdgeInsets.all(3),
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image: FileImage(_images[index - 1],
-                                            scale: 1.0),
-                                        fit: BoxFit.cover)),
-                              );
-                      },
-                      itemCount: _images.length + 1,
-                    ),
+                  GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3),
+                    itemBuilder: (context, index) {
+                      return index == 0
+                          ? Center(
+                              child: IconButton(
+                                  onPressed: () {
+                                    !uploading ? chooseImage() : null;
+                                  },
+                                  icon: const Icon(Icons.add)),
+                            )
+                          : Container(
+                              margin: const EdgeInsets.all(3),
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: FileImage(_images[index - 1],
+                                          scale: 1.0),
+                                      fit: BoxFit.cover)),
+                            );
+                    },
+                    itemCount: _images.length + 1,
                   ),
                   uploading
                       ? Center(

@@ -134,7 +134,7 @@ class _SearchProductState extends State<SearchProduct> {
                         userNumber: snapshot.data!.docs[index]['userNumber'],
                         date: snapshot.data!.docs[index]['date'].toDate(),
                         lat: snapshot.data!.docs[index]['lat'],
-                        lng: snapshot.data!.docs[index]['lng'],
+                        long: snapshot.data!.docs[index]['long'],
                         img1: snapshot.data!.docs[index]['urlImage1'],
                         img2: snapshot.data!.docs[index]['urlImage2'],
                         img3: snapshot.data!.docs[index]['urlImage3'],

@@ -55,7 +55,7 @@ class _ImageSliderScreenState extends State<ImageSliderScreen>
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.teal,
       ),
       child: Scaffold(
@@ -64,15 +64,17 @@ class _ImageSliderScreenState extends State<ImageSliderScreen>
           backgroundColor: Colors.teal,
           title: Text(
             widget.title,
-            style: TextStyle(fontFamily: 'Varela', letterSpacing: 2.0),
+            style: const TextStyle(fontFamily: 'Varela', letterSpacing: 2.0),
           ),
           centerTitle: true,
           leading: IconButton(
               onPressed: () {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => HomeScreen()));
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const HomeScreen()));
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.arrow_back,
                 color: Colors.white,
               )),
@@ -82,21 +84,21 @@ class _ImageSliderScreenState extends State<ImageSliderScreen>
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
-                padding: EdgeInsets.only(top: 20, left: 6, right: 12),
+                padding: const EdgeInsets.only(top: 20, left: 6, right: 12),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.location_pin,
                       color: Colors.white,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 5,
                     ),
                     Expanded(
                         child: Text(
                       widget.address,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors.white,
                           fontSize: 16,
                           fontFamily: 'Varela',
@@ -107,24 +109,24 @@ class _ImageSliderScreenState extends State<ImageSliderScreen>
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               SizedBox(
-                height: size.height * 0.05,
+                height: size.height * 0.5,
                 width: size.width,
                 child: Padding(
-                  padding: EdgeInsets.all(2),
+                  padding: const EdgeInsets.all(2),
                   child: Carousel(
                     indicatorBarColor: Colors.black.withOpacity(0.2),
-                    autoScrollDuration: Duration(seconds: 2),
-                    animationPageDuration: Duration(milliseconds: 500),
+                    autoScrollDuration: const Duration(seconds: 3),
+                    animationPageDuration: const Duration(milliseconds: 500),
                     activateIndicatorColor: Colors.black,
                     animationPageCurve: Curves.easeIn,
                     indicatorBarHeight: 30,
                     indicatorHeight: 10,
                     indicatorWidth: 10,
-                    unActivatedIndicatorColor: Colors.grey,
+                    unActivatedIndicatorColor: Colors.white,
                     stopAtEnd: false,
                     autoScroll: true,
                     items: [
@@ -138,11 +140,11 @@ class _ImageSliderScreenState extends State<ImageSliderScreen>
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: 5),
+                padding: const EdgeInsets.only(left: 5, top: 10),
                 child: Center(
                   child: Text(
                     "\$ ${widget.itemPrice}",
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Colors.white,
                         fontSize: 24,
                         fontFamily: 'Bebas',
@@ -150,24 +152,24 @@ class _ImageSliderScreenState extends State<ImageSliderScreen>
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Padding(
-                padding: EdgeInsets.only(left: 5),
+                padding: const EdgeInsets.only(left: 20, right: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.brush_outlined),
+                        const Icon(Icons.brush_outlined),
                         Padding(
-                          padding: EdgeInsets.only(left: 10),
+                          padding: const EdgeInsets.only(left: 10),
                           child: Align(
-                              alignment: Alignment.topLeft,
+                              alignment: Alignment.centerLeft,
                               child: Text(
                                 widget.itemColor,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Colors.white,
                                 ),
                               )),
@@ -176,14 +178,14 @@ class _ImageSliderScreenState extends State<ImageSliderScreen>
                     ),
                     Row(
                       children: [
-                        Icon(Icons.phone_outlined),
+                        const Icon(Icons.phone_outlined),
                         Padding(
-                          padding: EdgeInsets.only(left: 10),
+                          padding: const EdgeInsets.only(left: 10),
                           child: Align(
                               alignment: Alignment.topRight,
                               child: Text(
                                 widget.userNumber,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Colors.white,
                                 ),
                               )),
@@ -193,25 +195,25 @@ class _ImageSliderScreenState extends State<ImageSliderScreen>
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Padding(
-                padding: EdgeInsets.only(left: 15, right: 15),
+                padding: const EdgeInsets.only(left: 15, right: 15),
                 child: Text(
                   widget.description,
                   textAlign: TextAlign.justify,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Center(
                 child: ConstrainedBox(
-                  constraints: BoxConstraints.tightFor(width: 368),
+                  constraints: const BoxConstraints.tightFor(width: 368),
                   child: ElevatedButton(
                     onPressed: () async {
                       url =
@@ -222,14 +224,17 @@ class _ImageSliderScreenState extends State<ImageSliderScreen>
                         throw 'Could not launch $url';
                       }
                     },
-                    child: Text("Check Seller Location"),
-                    style: ButtonStyle(
+                    style: const ButtonStyle(
                         backgroundColor:
                             WidgetStatePropertyAll(Colors.black54)),
+                    child: const Text(
+                      "Check Seller Location",
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
             ],
