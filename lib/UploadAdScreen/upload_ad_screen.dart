@@ -223,7 +223,7 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
                                 Fluttertoast.showToast(
                                   msg: "Posted Successfully",
                                 );
-                                Navigator.push(
+                                Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>

@@ -31,8 +31,9 @@ class _ImageSliderScreenState extends State<ImageSliderScreen>
     with SingleTickerProviderStateMixin {
   static List<String> links = [];
   TabController? tabController;
+  late ScrollController _scrollController; // Define the ScrollController
 
-  getLinks() async {
+  getLinks() {
     links = [
       widget.urlImg1,
       widget.urlImg2,
@@ -47,6 +48,14 @@ class _ImageSliderScreenState extends State<ImageSliderScreen>
     super.initState();
     getLinks();
     tabController = TabController(length: links.length, vsync: this);
+    _scrollController = ScrollController(); // Initialize the ScrollController
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose(); // Dispose of the ScrollController
+    tabController?.dispose(); // Dispose of the TabController
+    super.dispose();
   }
 
   String? url;
@@ -69,10 +78,7 @@ class _ImageSliderScreenState extends State<ImageSliderScreen>
           centerTitle: true,
           leading: IconButton(
               onPressed: () {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const HomeScreen()));
+                Navigator.pop(context);
               },
               icon: const Icon(
                 Icons.arrow_back,
@@ -80,6 +86,7 @@ class _ImageSliderScreenState extends State<ImageSliderScreen>
               )),
         ),
         body: SingleChildScrollView(
+          controller: _scrollController, // Attach the ScrollController
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -224,9 +231,9 @@ class _ImageSliderScreenState extends State<ImageSliderScreen>
                         throw 'Could not launch $url';
                       }
                     },
-                    style: const ButtonStyle(
-                        backgroundColor:
-                            WidgetStatePropertyAll(Colors.black54)),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black54,
+                    ),
                     child: const Text(
                       "Check Seller Location",
                       style: TextStyle(color: Colors.white),

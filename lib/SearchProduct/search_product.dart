@@ -125,7 +125,7 @@ class _SearchProductState extends State<SearchProduct> {
                         docId: snapshot.data!.docs[index].id,
                         userImage: snapshot.data!.docs[index]['userImage'],
                         name: snapshot.data!.docs[index]['userName'],
-                        userId: snapshot.data!.docs[index]['userId'],
+                        userId: snapshot.data!.docs[index]['id'],
                         itemModel: snapshot.data!.docs[index]['itemModel'],
                         itemColor: snapshot.data!.docs[index]['itemColor'],
                         itemPrice: snapshot.data!.docs[index]['itemPrice'],
