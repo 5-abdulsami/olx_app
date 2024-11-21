@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -87,11 +89,11 @@ class _HomeScreenState extends State<HomeScreen> {
             '${placemark.subAdministrativeArea}, ${placemark.postalCode}, ${placemark.country}';
 
         completeAddress = newCompleteAddress;
-        print("Address: $completeAddress");
+        log("----------Address: $completeAddress");
 
         setState(() {}); // Update the UI with the fetched address
       } catch (e) {
-        print("Error fetching location: $e");
+        log("----------Error fetching location: $e");
       }
     }
   }
@@ -170,12 +172,12 @@ class _HomeScreenState extends State<HomeScreen> {
         body: StreamBuilder<QuerySnapshot>(
             stream: FirebaseFirestore.instance
                 .collection('items')
-                .orderBy('time', descending: true)
+                .orderBy("date", descending: true)
                 .snapshots(),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
-              } else {
+              } else if (snapshot.connectionState == ConnectionState.active) {
                 if (snapshot.data!.docs.isNotEmpty) {
                   return ListView.builder(
                     itemCount: snapshot.data!.docs.length,
@@ -185,7 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         docId: snapshot.data!.docs[index].id,
                         userImage: snapshot.data!.docs[index]['userImage'],
                         name: snapshot.data!.docs[index]['userName'],
-                        userId: snapshot.data!.docs[index]['userId'],
+                        userId: snapshot.data!.docs[index]['id'],
                         itemModel: snapshot.data!.docs[index]['itemModel'],
                         itemColor: snapshot.data!.docs[index]['itemColor'],
                         itemPrice: snapshot.data!.docs[index]['itemPrice'],
@@ -194,7 +196,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         userNumber: snapshot.data!.docs[index]['userNumber'],
                         date: snapshot.data!.docs[index]['date'].toDate(),
                         lat: snapshot.data!.docs[index]['lat'],
-                        lng: snapshot.data!.docs[index]['lng'],
+                        long: snapshot.data!.docs[index]['long'],
                         img1: snapshot.data!.docs[index]['urlImage1'],
                         img2: snapshot.data!.docs[index]['urlImage2'],
                         img3: snapshot.data!.docs[index]['urlImage3'],
@@ -206,6 +208,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 } else {
                   return const Center(child: Text("No data found"));
                 }
+              } else {
+                return const Center(child: Text("Something went wrong"));
               }
             }),
         floatingActionButton: FloatingActionButton(
@@ -215,7 +219,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 MaterialPageRoute(
                     builder: (context) => const UploadAdScreen()));
           },
-          tooltip: "Add Post ",
+          tooltip: "Add Post",
           child: const Icon(Icons.add),
         ),
       ),
